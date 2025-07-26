@@ -40,6 +40,14 @@ jobs:
         run: |
           cd android
           ./gradlew assembleRelease
+      - name: List APK output directory
+        run: ls -R android/app/build/outputs/apk
+
+      - name: Rename APK (if unsigned)
+        run: |
+          if [ -f android/app/build/outputs/apk/release/app-release-unsigned.apk ]; then
+            mv android/app/build/outputs/apk/release/app-release-unsigned.apk android/app/build/outputs/apk/release/app-release.apk
+          fi
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
